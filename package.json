@@ -1,0 +1,100 @@
+{
+  "name": "arc-it",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Arc-it.js - Modern React theming library with CSS variables and Tailwind CSS support",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "npx rollup -c",
+    "dev": "npx rollup -c -w",
+    "dev:fast": "npx rollup -c -w --config-dev",
+    "dev:watch": "npx rollup -c -w",
+    "dev:live": "echo '🔄 Starting Arc-it in watch mode...' && npx rollup -c -w",
+    "setup": "node setup-wizard.js",
+    "setup:project": "node setup-wizard.js",
+    "test:compatibility": "npm run build && node scripts/test-compatibility.js",
+    "test:security": "node scripts/test-security.js",
+    "test:security:malicious": "node scripts/test-security.js --malicious-only",
+    "security:audit": "npm audit && npm run test:security",
+    "security:check": "npm audit && npm run test:security && npm run test:compatibility",
+    "docs:errors": "echo '📚 Error Troubleshooting Guide: docs/ERROR_TROUBLESHOOTING.md' && echo '🔍 Common issues and solutions for Arc-it.js'"
+  },
+  "keywords": [
+    "arc-it",
+    "arc-itjs",
+    "theming",
+    "content",
+    "dynamic",
+    "react",
+    "react18",
+    "react19",
+    "react8",
+    "modern-react",
+    "concurrent-rendering",
+    "suspense",
+    "tailwind",
+    "tailwindcss",
+    "css-variables",
+    "theme-switching",
+    "dark-mode",
+    "modern",
+    "performance"
+  ],
+  "author": "AahrbitX",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "tailwindcss": {
+      "optional": true,
+      "description": "Required for Tailwind CSS integration features"
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "@babel/preset-react": "^7.23.3",
+    "@babel/preset-typescript": "^7.23.3",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^27.0.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.0",
+    "@types/node": "^24.3.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "concurrently": "^9.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "rollup": "^4.12.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.3"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AahrbitX/arc-it.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AahrbitX/arc-it/issues"
+  },
+  "homepage": "https://github.com/AahrbitX/arc-it#readme",
+  "dependencies": {
+    "lucide-react": "^0.539.0"
+  }
+}
