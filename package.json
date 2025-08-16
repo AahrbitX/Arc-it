@@ -1,5 +1,5 @@
 {
-  "name": "arc-it",
+  "name": "@aahrbitx/arc-it",
   "version": "1.0.0",
   "type": "module",
   "description": "Arc-it.js - Modern React theming library with CSS variables and Tailwind CSS support",
