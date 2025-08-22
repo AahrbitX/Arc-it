@@ -1,0 +1,58 @@
+# Source code
+src/
+examples/
+test-react-*/
+scripts/
+
+# Build tools and configs
+rollup.config.js
+tsconfig.json
+.babelrc
+.eslintrc*
+
+# Development files
+.git/
+.github/
+.vscode/
+.idea/
+*.log
+*.tsbuildinfo
+.rollup.cache/
+
+# Dependencies
+node_modules/
+package-lock.json
+
+# Documentation (keep only essential)
+docs/
+DEV_SETUP.md
+ARCHITECTURE.md
+TECHNICAL_IMPLEMENTATION.md
+security-test-results.json
+
+# Build artifacts
+dist/.tsbuildinfo
+
+# Environment files
+.env*
+.env.local
+.env.development
+.env.test
+.env.production
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+*.swp
+*.swo
+*~
+
+# Test files
+coverage/
+.nyc_output/
+*.test.js
+*.spec.js
+test.jsx
+TestApp.tsx
