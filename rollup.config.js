@@ -35,7 +35,29 @@ export default {
     // Only minify in production builds
     ...(isDev ? [] : [terser()])
   ],
-  external: ['react', 'react-dom'],
+  external: [
+    'react', 
+    'react-dom',
+    'lucide-react',
+    // Externalize all build tools to prevent them from being bundled
+    '@babel/core',
+    '@babel/preset-env',
+    '@babel/preset-react',
+    '@babel/preset-typescript',
+    '@rollup/plugin-babel',
+    '@rollup/plugin-commonjs',
+    '@rollup/plugin-node-resolve',
+    '@rollup/plugin-terser',
+    '@rollup/plugin-typescript',
+    '@types/node',
+    '@types/react',
+    '@types/react-dom',
+    'concurrently',
+    'rollup',
+    'rollup-plugin-peer-deps-external',
+    'tslib',
+    'typescript'
+  ],
   // Development optimizations
   ...(isDev && {
     watch: {
