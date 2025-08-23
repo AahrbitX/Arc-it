@@ -58,6 +58,17 @@ export type {
 export { getLanguageName, getLanguageDescription } from './content/hooks';
 
 // ============================================================================
+// SMART CONTENT LOADER - The Ultimate Solution
+// ============================================================================
+
+export { 
+  createSmartContentLoader, 
+  useSmartContent,
+  SmartContentLoader 
+} from './content/SmartContentLoader';
+export type { SmartContentConfig, ContentResponse } from './content/SmartContentLoader';
+
+// ============================================================================
 // USAGE EXAMPLES
 // ============================================================================
 
