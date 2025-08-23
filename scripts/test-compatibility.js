@@ -1,17 +1,22 @@
 #!/usr/bin/env node
 
 /**
- * 🧪 React Compatibility Test Script
+ * React Compatibility Test Script
  * 
  * This script tests the library with different React versions
  * to ensure compatibility across React 18, 19, and future versions.
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+import fs from 'fs';
+import path from 'path';
+import { execSync } from 'child_process';
+import { fileURLToPath } from 'url';
 
-console.log('🧪 Testing React Compatibility...\n');
+// ES module equivalents
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+console.log('Testing React Compatibility...\n');
 
 // Test configurations for different React versions
 const testConfigs = [
@@ -71,7 +76,7 @@ function TestComponent() {
       padding: '20px',
       borderRadius: '8px'
     }}>
-      ✅ React ${version} Compatibility Test
+      React ${version} Compatibility Test
       <br />
       <small>Primary color: {getColor('primary') || '#0070f3'}</small>
     </div>
@@ -82,7 +87,7 @@ function TestApp() {
   return (
     <DynamicProvider>
       <div style={{ padding: '40px', fontFamily: 'system-ui, sans-serif' }}>
-        <h1>🧪 React ${version} Compatibility Test</h1>
+        <h1>React ${version} Compatibility Test</h1>
         <TestComponent />
         <p>If you see this, React ${version} is working correctly!</p>
       </div>
@@ -126,35 +131,35 @@ async function runCompatibilityTests() {
     const config = testConfigs[i];
     const version = config.name.includes('18') ? '18' : '19';
     
-    console.log(`🔍 Testing ${config.name}...`);
+    console.log(`Testing ${config.name}...`);
     
     try {
       const testDir = createTestPackage(version, config);
       
       // Install dependencies
-      console.log(`  📦 Installing dependencies...`);
+      console.log(`  Installing dependencies...`);
       execSync(`cd ${testDir} && npm install --silent`, { stdio: 'pipe' });
       
       // Test build
-      console.log(`  🏗️  Testing build...`);
+      console.log(`  Testing build...`);
       execSync(`cd ${testDir} && npx tsc --noEmit --jsx react-jsx`, { stdio: 'pipe' });
       
-      console.log(`  ✅ ${config.name} - PASSED\n`);
+      console.log(`  ${config.name} - PASSED\n`);
       results.push({ version: config.name, status: 'PASSED' });
       
     } catch (error) {
-      console.log(`  ❌ ${config.name} - FAILED`);
+      console.log(`  ${config.name} - FAILED`);
       console.log(`     Error: ${error.message}\n`);
       results.push({ version: config.name, status: 'FAILED', error: error.message });
     }
   }
 
   // Print summary
-  console.log('📊 Compatibility Test Results:');
+  console.log('Compatibility Test Results:');
   console.log('==============================');
   
   results.forEach(result => {
-    const status = result.status === 'PASSED' ? '✅' : '❌';
+    const status = result.status === 'PASSED' ? 'PASSED' : 'FAILED';
     console.log(`${status} ${result.version}: ${result.status}`);
     if (result.error) {
       console.log(`   Error: ${result.error}`);
@@ -164,13 +169,13 @@ async function runCompatibilityTests() {
   const passed = results.filter(r => r.status === 'PASSED').length;
   const total = results.length;
   
-  console.log(`\n🎯 Overall: ${passed}/${total} tests passed`);
+  console.log(`\nOverall: ${passed}/${total} tests passed`);
   
   if (passed === total) {
-    console.log('🎉 All compatibility tests passed! Your library is ready for React 18+');
-    console.log('🚀 Modern React features enabled: Concurrent Rendering, Suspense, Automatic Batching');
+    console.log('All compatibility tests passed! Your library is ready for React 18+');
+    console.log('Modern React features enabled: Concurrent Rendering, Suspense, Automatic Batching');
   } else {
-    console.log('⚠️  Some tests failed. Check the errors above.');
+    console.log('Some tests failed. Check the errors above.');
   }
 }
 

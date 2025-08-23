@@ -1,13 +1,13 @@
-# Arc-it.js 🎨
+# Arc-it.js
 
-**Modern React theming library with CSS variables and Tailwind CSS support**
+**Modern React theming library with CSS variables, Tailwind CSS support, and Smart Content Loading**
 
 [![npm version](https://badge.fury.io/js/%40aahrbitx%2Farc-it.svg)](https://www.npmjs.com/package/@aahrbitx/arc-it)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![React](https://img.shields.io/badge/React-18%2B-blue.svg)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4%2B-blue.svg)](https://www.typescriptlang.org/)
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 
@@ -15,7 +15,7 @@
 npm install @aahrbitx/arc-it
 ```
 
-**⚠️ Important**: This package requires React 18+ and lucide-react as peer dependencies.
+**Important**: This package requires React 18+ and lucide-react as peer dependencies.
 
 ### Required Peer Dependencies
 
@@ -40,25 +40,25 @@ function App() {
 }
 ```
 
-## 🔧 Features
+## Features
 
-- **🎨 Dynamic Theme Detection**: Automatically discovers themes from JSON files
-- **🌙 Dark/Light Mode**: Built-in theme switching with smooth transitions
-- **🌍 Multi-language Support**: Dynamic content switching
-- **🎯 Tailwind CSS Integration**: Seamless Tailwind support
-- **⚡ React 18+ Ready**: Concurrent features and Suspense support
-- **🔒 Security Focused**: Built-in security validation
-- **📱 Mobile Optimized**: Responsive design components
-- **🚀 Smart Content Loading**: Automatic Speed + SEO + Security optimization
+- **Dynamic Theme Detection**: Automatically discovers themes from JSON files
+- **Dark/Light Mode**: Built-in theme switching with smooth transitions
+- **Multi-language Support**: Dynamic content switching
+- **Tailwind CSS Integration**: Seamless Tailwind support
+- **React 18+ Ready**: Concurrent features and Suspense support
+- **Security Focused**: Built-in security validation
+- **Mobile Optimized**: Responsive design components
+- **Smart Content Loading**: Automatic Speed + SEO + Security optimization
 
-## 📦 Package Information
+## Package Information
 
 - **Size**: ~20KB gzipped
 - **Dependencies**: 0 runtime dependencies (peer dependencies only)
 - **Security**: Regular security audits and vulnerability scanning
 - **Performance**: Optimized for modern React rendering
 
-## 🛡️ Security & Performance
+## Security & Performance
 
 ### Why Choose Arc-it?
 
@@ -74,7 +74,7 @@ function App() {
 - Content validation
 - Secure theme switching
 
-## 📚 Documentation
+## Documentation
 
 - [Quick Start Guide](QUICK_START.md) - Get up and running in minutes
 - [Content Styles](docs/CONTENT_STYLES.md) - Customize your content
@@ -83,7 +83,7 @@ function App() {
 - [Error Troubleshooting](docs/ERROR_TROUBLESHOOTING.md) - Common issues and solutions
 - [Smart Content Integration](docs/SMART_CONTENT_INTEGRATION.md) - Automatic Speed + SEO + Security
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
 ### Installation Issues
 
@@ -99,15 +99,15 @@ If you encounter high severity vulnerabilities or slow installation:
 - **Slow installation**: Ensure you're using the latest package version
 - **Build errors**: Check React version compatibility (18+ required)
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
-## 📄 License
+## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
-## 🔗 Links
+## Links
 
 - [NPM Package](https://www.npmjs.com/package/@aahrbitx/arc-it)
 - [GitHub Repository](https://github.com/AahrbitX/arc-it)
@@ -116,4 +116,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-**Built with ❤️ by AahrbitX**
+**Built with love by AahrbitX**

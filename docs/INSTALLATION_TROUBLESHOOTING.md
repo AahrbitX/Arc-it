@@ -1,310 +1,415 @@
-# Installation Troubleshooting Guide 🚨
+# Installation Troubleshooting Guide
 
-This guide helps resolve common installation issues with `@aahrbitx/arc-it`.
+## Common Installation Issues and Solutions
 
-## 🚨 High Severity Vulnerabilities
+This guide helps resolve common issues when installing and using Arc-it 1.1.0 with Smart Content Loading features.
 
-### Problem
+---
+
+## Package Installation Issues
+
+### High Severity Vulnerabilities
+
+**Problem**: `npm audit` shows high severity vulnerabilities during installation.
+
+**Cause**: Previous versions included devDependencies in the published package.
+
+**Solution**: 
+1. Update to Arc-it 1.1.0 or later
+2. Run `npm audit fix` to resolve remaining issues
+3. The package now properly externalizes build tools
+
+**Verification**:
 ```bash
-npm install @aahrbitx/arc-it
-# Results in: 5 high severity vulnerabilities
+npm install @aahrbitx/arc-it@1.1.0
+npm audit
 ```
 
-### Root Cause
-- **DevDependencies being published**: Outdated build tools are being included in the published package
-- **Dependency conflicts**: Mismatched versions between your project and the package
-- **npm cache issues**: Corrupted or outdated cache
+### Slow Installation (487+ packages)
 
-### Solutions
+**Problem**: Installation takes a very long time and installs many unnecessary packages.
 
-#### **Immediate Fix (Recommended)**
+**Cause**: Previous versions bundled build tools and dependencies.
+
+**Solution**: 
+1. Use Arc-it 1.1.0+ which has optimized package size
+2. Clear npm cache: `npm cache clean --force`
+3. The package now only includes essential runtime files
+
+**Expected Result**: Installation should complete in under 1 minute with ~10-15 packages.
+
+### Deprecation Warnings
+
+**Problem**: Warnings about deprecated packages like `node-domexception`, `inflight`, `glob`, `puppeteer`.
+
+**Cause**: These are build-time dependencies that shouldn't be in the final package.
+
+**Solution**: 
+1. Update to Arc-it 1.1.0+
+2. These warnings should no longer appear
+3. The package now properly excludes build tools
+
+---
+
+## Runtime Issues
+
+### Module Import Errors
+
+**Problem**: `Module not found` or import errors when using the library.
+
+**Solution**:
+1. Ensure you have the required peer dependencies:
 ```bash
-# Clear npm cache
-npm cache clean --force
-
-# Remove existing installation
-npm uninstall @aahrbitx/arc-it
-
-# Install latest version
-npm install @aahrbitx/arc-it@latest
+npm install react react-dom lucide-react
 ```
 
-#### **Alternative: Use Yarn**
-```bash
-# Install yarn if not available
-npm install -g yarn
-
-# Install package with yarn
-yarn add @aahrbitx/arc-it
+2. Check your import statements:
+```tsx
+// Correct imports
+import { DynamicProvider, useTheme, useContent } from '@aahrbitx/arc-it';
+import { createSmartContentLoader, useSmartContent } from '@aahrbitx/arc-it';
 ```
 
-#### **Manual Dependency Management**
-```bash
-# Install with --legacy-peer-deps if you have React version conflicts
-npm install @aahrbitx/arc-it --legacy-peer-deps
-
-# Or force resolution
-npm install @aahrbitx/arc-it --force
-```
-
-## 🐌 Slow Installation
-
-### Problem
-```bash
-npm install @aahrbitx/arc-it
-# Takes 10+ minutes and installs 487 packages
-```
-
-### Root Cause
-- **DevDependencies included**: Build tools and development packages are being installed
-- **Large dependency tree**: Unnecessary packages are being resolved
-- **Network issues**: Slow npm registry or network connection
-
-### Solutions
-
-#### **Use Latest Version**
-```bash
-# Always use the latest version for best performance
-npm install @aahrbitx/arc-it@latest
-```
-
-#### **Check Package Size**
-```bash
-# Verify package size before installation
-npm view @aahrbitx/arc-it dist.size
-npm view @aahrbitx/arc-it dist.unpackedSize
-```
-
-#### **Use Alternative Registries**
-```bash
-# Use faster npm mirrors
-npm config set registry https://registry.npmjs.org/
-
-# Or use yarn with faster mirrors
-yarn config set registry https://registry.yarnpkg.com/
-```
-
-## ⚠️ Deprecation Warnings
-
-### Common Warnings
-```bash
-npm warn deprecated node-domexception@1.0.0
-npm warn deprecated inflight@1.6.6
-npm warn deprecated glob@7.2.3
-npm warn deprecated puppeteer@21.11.0
-```
-
-### Why These Happen
-- **Outdated dependencies**: Some packages use deprecated versions
-- **Build tool versions**: Development dependencies may be outdated
-- **Security updates**: Newer versions fix security issues
-
-### Solutions
-
-#### **Update Your Environment**
-```bash
-# Update npm to latest version
-npm install -g npm@latest
-
-# Update Node.js to LTS version
-# Download from: https://nodejs.org/
-```
-
-#### **Use Resolution in package.json**
+3. Verify your package.json has the correct version:
 ```json
 {
-  "overrides": {
-    "node-domexception": "^3.0.0",
-    "inflight": "^2.0.0",
-    "glob": "^10.0.0"
+  "dependencies": {
+    "@aahrbitx/arc-it": "^1.1.0"
   }
 }
 ```
 
-## 🔒 Security Best Practices
+### TypeScript Errors
 
-### Before Installation
-```bash
-# Check for known vulnerabilities
-npm audit
+**Problem**: TypeScript compilation errors or missing type definitions.
 
-# Update npm to latest version
-npm install -g npm@latest
+**Solution**:
+1. Ensure you have TypeScript 5.4+ installed
+2. Check that your tsconfig.json includes the library
+3. The package includes full TypeScript definitions
 
-# Clear cache
-npm cache clean --force
+**tsconfig.json example**:
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  }
+}
 ```
 
-### After Installation
-```bash
-# Run security audit
-npm audit
+### Build Tool Conflicts
 
-# Fix vulnerabilities automatically
-npm audit fix
+**Problem**: Conflicts with Rollup, Webpack, or other build tools.
 
-# Fix with breaking changes (use carefully)
-npm audit fix --force
-```
+**Solution**:
+1. The package is built with Rollup but works with any bundler
+2. Ensure your bundler can handle ES modules
+3. Check for duplicate React installations
 
-## 🛠️ Environment Setup
-
-### Required Versions
-- **Node.js**: 16.0.0 or higher
-- **npm**: 8.0.0 or higher
-- **React**: 18.0.0 or higher
-
-### Check Your Environment
-```bash
-# Check Node.js version
-node --version
-
-# Check npm version
-npm --version
-
-# Check React version in your project
-npm list react
-```
-
-## 📦 Package Verification
-
-### Verify Package Contents
-```bash
-# Check what's actually in the package
-npm view @aahrbitx/arc-it dependencies
-npm view @aahrbitx/arc-it devDependencies
-npm view @aahrbitx/arc-it files
-```
-
-### Expected Package Structure
-```
-@aahrbitx/arc-it/
-├── dist/           # Built JavaScript files
-├── README.md       # Documentation
-├── QUICK_START.md  # Quick start guide
-└── package.json    # Package metadata
-```
-
-**❌ Should NOT include:**
-- `src/` (source code)
-- `node_modules/`
-- Build tools
-- Development dependencies
-
-## 🔄 Reinstallation Steps
-
-### Complete Clean Reinstall
-```bash
-# 1. Remove package
-npm uninstall @aahrbitx/arc-it
-
-# 2. Clear cache
-npm cache clean --force
-
-# 3. Remove lock file (optional)
-rm package-lock.json
-
-# 4. Reinstall dependencies
-npm install
-
-# 5. Install arc-it
-npm install @aahrbitx/arc-it@latest
-```
-
-### Alternative: Use Yarn
-```bash
-# 1. Remove package
-yarn remove @aahrbitx/arc-it
-
-# 2. Clear cache
-yarn cache clean
-
-# 3. Install with yarn
-yarn add @aahrbitx/arc-it
-```
-
-## 🚀 Performance Optimization
-
-### npm Configuration
-```bash
-# Set npm to use latest features
-npm config set fund false
-npm config set audit false
-
-# Use faster registry
-npm config set registry https://registry.npmjs.org/
-```
-
-### Yarn Configuration
-```bash
-# Use yarn for faster installations
-yarn config set network-timeout 300000
-yarn config set registry https://registry.yarnpkg.com/
-```
-
-## 📞 Getting Help
-
-### If Problems Persist
-1. **Check GitHub Issues**: [Arc-it Issues](https://github.com/AahrbitX/arc-it/issues)
-2. **Create New Issue**: Include your error messages and environment details
-3. **Check npm Status**: [npm Status Page](https://status.npmjs.org/)
-
-### Required Information for Support
-```bash
-# Run these commands and include output
-node --version
-npm --version
-npm list react
-npm audit
-npm view @aahrbitx/arc-it version
-```
-
-### Common Error Patterns
-- **High severity vulnerabilities**: Usually fixed in latest versions
-- **Slow installation**: Network or registry issues
-- **Deprecation warnings**: Normal, doesn't affect functionality
-- **Peer dependency conflicts**: Version mismatch issues
-
-## ✅ Success Checklist
-
-After successful installation, verify:
-
-- [ ] Package installed without errors
-- [ ] No high severity vulnerabilities
-- [ ] Installation completed in reasonable time (< 2 minutes)
-- [ ] Package size is reasonable (~20KB)
-- [ ] All peer dependencies are satisfied
-- [ ] No critical warnings in console
-
-## 🔧 Advanced Troubleshooting
-
-### Network Issues
-```bash
-# Test npm connectivity
-npm ping
-
-# Check registry response time
-time npm view @aahrbitx/arc-it
-```
-
-### Dependency Resolution
-```bash
-# Check dependency tree
-npm ls @aahrbitx/arc-it
-
-# See what's being installed
-npm install @aahrbitx/arc-it --dry-run
-```
-
-### Build Issues
-```bash
-# Check if package builds correctly
-npm run build
-
-# Verify TypeScript compilation
-npx tsc --noEmit
+**Webpack configuration**:
+```javascript
+module.exports = {
+  resolve: {
+    alias: {
+      'react': path.resolve('./node_modules/react'),
+      'react-dom': path.resolve('./node_modules/react-dom')
+    }
+  }
+};
 ```
 
 ---
 
-**Need more help?** Open an issue on [GitHub](https://github.com/AahrbitX/arc-it/issues) with your specific error details.
+## Smart Content Loader Issues
+
+### Integration Problems
+
+**Problem**: Smart Content Loader not working with existing Arc-it system.
+
+**Solution**:
+1. Ensure `extendExisting: true` is set:
+```tsx
+const loader = createSmartContentLoader({
+  extendExisting: true
+});
+```
+
+2. Check that providers are properly wrapped:
+```tsx
+<DynamicProvider>
+  <YourComponent />
+</DynamicProvider>
+```
+
+3. Use the correct hook:
+```tsx
+const { loadContent } = useSmartContent();
+```
+
+### Performance Issues
+
+**Problem**: No performance improvement or slower loading.
+
+**Solution**:
+1. Check network quality assessment:
+```tsx
+const { networkQuality } = useSmartContent();
+console.log('Network quality:', networkQuality);
+```
+
+2. Verify cache configuration:
+```tsx
+const loader = createSmartContentLoader({
+  performance: {
+    cacheStrategy: 'aggressive',
+    preloadStrategy: 'smart'
+  }
+});
+```
+
+3. Monitor cache hit rates:
+```tsx
+const stats = loader.getStats();
+console.log('Cache hit rate:', stats.cacheStats.hitRate);
+```
+
+### Security False Positives
+
+**Problem**: Legitimate users being blocked by security features.
+
+**Solution**:
+1. Adjust rate limiting thresholds:
+```tsx
+const loader = createSmartContentLoader({
+  security: {
+    rateLimiting: {
+      maxRequests: 100,
+      windowMs: 60000
+    }
+  }
+});
+```
+
+2. Review bot detection settings:
+```tsx
+const loader = createSmartContentLoader({
+  security: {
+    antiScraping: {
+      userAgentCheck: false,
+      suspiciousPatternCheck: true
+    }
+  }
+});
+```
+
+3. Enable debug mode for troubleshooting:
+```tsx
+const loader = createSmartContentLoader({
+  debug: true,
+  logLevel: 'verbose'
+});
+```
+
+---
+
+## Environment-Specific Issues
+
+### Next.js Applications
+
+**Problem**: Issues with server-side rendering or build process.
+
+**Solution**:
+1. Ensure proper import in Next.js:
+```tsx
+import dynamic from 'next/dynamic';
+
+const DynamicProvider = dynamic(
+  () => import('@aahrbitx/arc-it').then(mod => ({ default: mod.DynamicProvider })),
+  { ssr: false }
+);
+```
+
+2. Check Next.js configuration for module resolution
+
+### Create React App
+
+**Problem**: Build errors or module resolution issues.
+
+**Solution**:
+1. Ensure CRA version supports ES modules
+2. Check for conflicting dependencies
+3. Clear build cache: `npm run build -- --reset-cache`
+
+### Vite Applications
+
+**Problem**: Import or build issues with Vite.
+
+**Solution**:
+1. Vite should work out of the box with ES modules
+2. Check vite.config.js for any module resolution settings
+3. Ensure proper import statements
+
+---
+
+## Version Compatibility
+
+### React Version Requirements
+
+**Minimum**: React 18.0.0
+**Recommended**: React 18.2.0+
+
+**Check your React version**:
+```bash
+npm list react
+```
+
+**Update React if needed**:
+```bash
+npm install react@^18.2.0 react-dom@^18.2.0
+```
+
+### Node.js Version Requirements
+
+**Minimum**: Node.js 16.0.0
+**Recommended**: Node.js 18.0.0+
+
+**Check your Node.js version**:
+```bash
+node --version
+```
+
+### Package Manager Compatibility
+
+**npm**: 7.0.0+
+**yarn**: 1.22.0+
+**pnpm**: 6.0.0+
+
+---
+
+## Debugging Steps
+
+### 1. Check Package Installation
+
+```bash
+# Verify package is installed correctly
+npm list @aahrbitx/arc-it
+
+# Check package contents
+npm explore @aahrbitx/arc-it -- ls
+
+# Verify package.json
+npm explore @aahrbitx/arc-it -- cat package.json
+```
+
+### 2. Check Dependencies
+
+```bash
+# Check for duplicate React installations
+npm ls react
+
+# Check peer dependencies
+npm ls react react-dom lucide-react
+```
+
+### 3. Check Build Output
+
+```bash
+# Clear build cache
+npm run build -- --reset-cache
+
+# Check build output
+ls -la dist/
+```
+
+### 4. Enable Debug Logging
+
+```tsx
+// Enable debug mode
+const loader = createSmartContentLoader({
+  debug: true,
+  logLevel: 'verbose'
+});
+
+// Check console for detailed logs
+```
+
+---
+
+## Getting Help
+
+### 1. Check Documentation
+
+- [README.md](../README.md) - Complete documentation
+- [QUICK_START.md](../QUICK_START.md) - Quick start guide
+- [SMART_CONTENT_INTEGRATION.md](./SMART_CONTENT_INTEGRATION.md) - Smart Content Loading guide
+
+### 2. Check GitHub Issues
+
+Visit the GitHub repository to search for similar issues or report new ones.
+
+### 3. Check NPM Package
+
+Verify you have the latest version:
+```bash
+npm view @aahrbitx/arc-it version
+npm install @aahrbitx/arc-it@latest
+```
+
+### 4. Minimal Reproduction
+
+Create a minimal example to reproduce the issue:
+```tsx
+import React from 'react';
+import { DynamicProvider } from '@aahrbitx/arc-it';
+
+function MinimalExample() {
+  return (
+    <DynamicProvider>
+      <div>Hello World</div>
+    </DynamicProvider>
+  );
+}
+```
+
+---
+
+## Common Solutions Summary
+
+| Issue | Solution |
+|-------|----------|
+| High severity vulnerabilities | Update to 1.1.0+, run `npm audit fix` |
+| Slow installation | Update to 1.1.0+, clear npm cache |
+| Deprecation warnings | Update to 1.1.0+ |
+| Module not found | Install peer dependencies, check imports |
+| TypeScript errors | Check TypeScript version, tsconfig.json |
+| Build conflicts | Ensure single React installation |
+| Integration issues | Set `extendExisting: true` |
+| Performance problems | Check network quality, cache settings |
+| Security blocks | Adjust thresholds, enable debug mode |
+
+---
+
+## Prevention
+
+### 1. **Use Latest Version**
+Always use the latest stable version of Arc-it.
+
+### 2. **Check Peer Dependencies**
+Ensure React, React-DOM, and lucide-react are properly installed.
+
+### 3. **Follow Integration Guide**
+Use the integration guide for Smart Content Loader setup.
+
+### 4. **Test in Development**
+Test thoroughly in development before deploying to production.
+
+### 5. **Monitor Performance**
+Use built-in performance tracking to monitor improvements.
+
+---
+
+This troubleshooting guide should resolve most common issues. If you continue to experience problems, please check the GitHub repository for additional support.

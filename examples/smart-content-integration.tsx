@@ -9,20 +9,20 @@ import {
 } from '@aahrbitx/arc-it';
 
 // ============================================================================
-// 🚀 SMART CONTENT INTEGRATION - Extends Your Existing Arc-it System
+// SMART CONTENT INTEGRATION - Extends Your Existing Arc-it System
 // ============================================================================
 // This example shows how SmartContentLoader integrates with your existing:
-// ✅ ThemeProvider (themes, presets, dark/light mode)
-// ✅ ContentProvider (languages, content styles)
-// ✅ DynamicProvider (unified system)
+// - ThemeProvider (themes, presets, dark/light mode)
+// - ContentProvider (languages, content styles)
+// - DynamicProvider (unified system)
 // 
 // The SmartContentLoader adds automatic:
-// 🚀 SPEED: Network adaptation + smart caching
-// 🔍 SEO: Automatic structured data + meta tags
-// 🛡️ SECURITY: Anti-scraping + rate limiting
+// - SPEED: Network adaptation + smart caching
+// - SEO: Automatic structured data + meta tags
+// - SECURITY: Anti-scraping + rate limiting
 
 // ============================================================================
-// 🎯 EXAMPLE 1: INTEGRATED WITH EXISTING SYSTEM
+// EXAMPLE 1: INTEGRATED WITH EXISTING SYSTEM
 // ============================================================================
 
 function SmartContentIntegrationExample() {
@@ -36,7 +36,7 @@ function SmartContentIntegrationExample() {
     >
       <div>
         <header>
-          <h1>🚀 Arc-it + Smart Content Loader</h1>
+          <h1>Arc-it + Smart Content Loader</h1>
           <p>Your existing system + automatic Speed + SEO + Security!</p>
           <DynamicSwitcher />
         </header>
@@ -52,222 +52,181 @@ function SmartContentIntegrationExample() {
 }
 
 // ============================================================================
-// 🎯 EXAMPLE 2: YOUR EXISTING SYSTEM (Unchanged)
+// EXAMPLE 2: YOUR EXISTING SYSTEM (UNCHANGED)
 // ============================================================================
 
 function ExistingSystemDemo() {
-  const { setPreset, currentPreset, availablePresets, toggleDarkMode, isDarkMode } = useTheme();
-  const { content, language, setLanguage, languages, currentStyle, setContentStyle, availableStyles } = useContent();
+  const { currentPreset, setPreset, availablePresets } = useTheme();
+  const { content, language, setLanguage, currentContentStyle } = useContent();
 
   return (
-    <section>
-      <h2>🎨 Your Existing Arc-it System (Unchanged)</h2>
+    <div style={{ border: '2px solid #ccc', padding: '20px', margin: '20px 0' }}>
+      <h2>1. Your Existing System (Unchanged)</h2>
+      <p>All your current Arc-it functionality works exactly the same:</p>
       
-      {/* Theme Management */}
-      <div>
-        <h3>Themes</h3>
-        <p>Current: {currentPreset}</p>
-        <div>
-          {availablePresets.map(preset => (
-            <button 
-              key={preset} 
-              onClick={() => setPreset(preset)}
-              style={{ margin: '0.5rem', padding: '0.5rem 1rem' }}
-            >
-              {preset}
-            </button>
-          ))}
-        </div>
-        <button onClick={toggleDarkMode}>
-          {isDarkMode ? 'Switch to Light' : 'Switch to Dark'}
-        </button>
+      <div style={{ margin: '20px 0' }}>
+        <h3>Theme Management</h3>
+        <p>Current Preset: {currentPreset}</p>
+        <p>Available Presets: {availablePresets.join(', ')}</p>
+        <button onClick={() => setPreset('blue')}>Switch to Blue Theme</button>
+        <button onClick={() => setPreset('green')}>Switch to Green Theme</button>
       </div>
 
-      {/* Language Management */}
-      <div>
-        <h3>Languages</h3>
-        <p>Current: {language}</p>
-        <select value={language} onChange={(e) => setLanguage(e.target.value)}>
-          {languages.map(lang => (
-            <option key={lang} value={lang}>{lang}</option>
-          ))}
-        </select>
+      <div style={{ margin: '20px 0' }}>
+        <h3>Content Management</h3>
+        <p>Current Language: {language}</p>
+        <p>Current Style: {currentContentStyle}</p>
+        <button onClick={() => setLanguage('en')}>English</button>
+        <button onClick={() => setLanguage('es')}>Spanish</button>
+        <button onClick={() => setLanguage('fr')}>French</button>
       </div>
 
-      {/* Content Styles */}
-      <div>
-        <h3>Content Styles</h3>
-        <p>Current: {currentStyle}</p>
-        <select value={currentStyle || ''} onChange={(e) => setContentStyle(e.target.value)}>
-          {availableStyles.map(style => (
-            <option key={style} value={style}>{style}</option>
-          ))}
-        </select>
+      <div style={{ margin: '20px 0' }}>
+        <h3>Dynamic Content</h3>
+        <p>Title: {content[language]?.title || 'Loading...'}</p>
+        <p>Description: {content[language]?.description || 'Loading...'}</p>
       </div>
-
-      {/* Content Display */}
-      <div>
-        <h3>Content</h3>
-        <h4>{content[language]?.hero?.title}</h4>
-        <p>{content[language]?.hero?.subtitle}</p>
-      </div>
-    </section>
+    </div>
   );
 }
 
 // ============================================================================
-// 🎯 EXAMPLE 3: SMART CONTENT LOADER (New Features)
+// EXAMPLE 3: SMART CONTENT LOADER (NEW FEATURES)
 // ============================================================================
 
 function SmartContentDemo() {
-  // Create SmartContentLoader that integrates with your existing system
-  const loader = createSmartContentLoader({
-    extendExisting: true,           // Extend your current system
-    enhanceSEO: true,               // Add SEO to existing content
-    security: {
-      antiScraping: true,           // Block automated scraping
-      rateLimiting: true,           // Prevent abuse
-      contentObfuscation: false,    // Don't obfuscate public content
-      watermarking: true            // Track usage
-    }
-  });
+  // Create a loader instance
+  const loader = React.useMemo(() => createSmartContentLoader({
+    extendExisting: true
+  }), []);
 
-  // Use smart content loading
-  const { content, loading, error, stats, seo, performance } = useSmartContent(
-    loader,
-    'existing',                     // Use existing ContentProvider
-    undefined,                      // No auth needed for public content
-    { useExisting: true }          // Integrate with existing system
-  );
-
-  if (loading) return <div>Loading with smart optimization...</div>;
-  if (error) return <div>Error: {error}</div>;
+  const { 
+    content, 
+    loading, 
+    error, 
+    response,
+    stats,
+    seo,
+    performance
+  } = useSmartContent(loader, 'public', undefined, { extendExisting: true });
 
   return (
-    <section>
-      <h2>🚀 Smart Content Loader (New Features)</h2>
+    <div style={{ border: '2px solid #4CAF50', padding: '20px', margin: '20px 0' }}>
+      <h2>2. Smart Content Loader (New Features)</h2>
+      <p>New capabilities that work alongside your existing system:</p>
       
-      {/* Smart Content */}
-      <div>
-        <h3>Enhanced Content</h3>
-        <h4>{content?.hero?.title}</h4>
-        <p>{content?.hero?.subtitle}</p>
-        
-        {/* Automatic SEO data */}
-        <div>
-          <h4>🔍 Automatic SEO Enhancement</h4>
-          <p>Structured Data: {Object.keys(seo.structuredData).length} properties</p>
-          <p>Meta Tags: {Object.keys(seo.metaTags).length} tags</p>
-          <p>Open Graph: {Object.keys(seo.openGraph).length} properties</p>
+      <div style={{ margin: '20px 0' }}>
+        <h3>Network Intelligence</h3>
+        <p>Network Quality: {stats?.networkQuality || 'N/A'}</p>
+        <p>Security Level: {stats?.securityLevel || 'N/A'}</p>
+        <p>Status: {loading ? 'Loading...' : 'Ready'}</p>
+      </div>
+
+      {content && (
+        <div style={{ margin: '20px 0' }}>
+          <h3>Loaded Content</h3>
+          <pre style={{ background: '#f5f5f5', padding: '10px', overflow: 'auto' }}>
+            {JSON.stringify(content, null, 2)}
+          </pre>
         </div>
+      )}
+
+      {error && (
+        <div style={{ margin: '20px 0', color: 'red' }}>
+          <h3>Error</h3>
+          <p>{error}</p>
+        </div>
+      )}
+
+      <div style={{ margin: '20px 0' }}>
+        <h3>SEO Enhancement</h3>
+        <p>Structured Data: {seo?.structuredData ? 'Yes' : 'No'}</p>
+        <p>Meta Tags: {seo?.metaTags ? 'Yes' : 'No'}</p>
       </div>
 
-      {/* Performance Metrics */}
-      <div>
-        <h3>📊 Performance Metrics</h3>
-        <p>Load time: {stats.loadTime}ms</p>
-        <p>Network quality: {stats.networkQuality}</p>
-        <p>Cache status: {stats.cacheStatus}</p>
-        <p>Security level: {stats.securityLevel}</p>
-        <p>SEO optimized: {stats.seoOptimized ? 'Yes' : 'No'}</p>
+      <div style={{ margin: '20px 0' }}>
+        <h3>Performance Metrics</h3>
+        <p>Cache Hit Rate: {performance?.cacheHitRate || 'N/A'}%</p>
+        <p>Load Time: {stats?.loadTime || 'N/A'}ms</p>
+        <p>Total Requests: {performance?.totalRequests || 'N/A'}</p>
       </div>
-
-      {/* System Stats */}
-      <div>
-        <h3>🔧 System Statistics</h3>
-        <p>Total requests: {performance.totalRequests}</p>
-        <p>Compression ratio: {performance.compressionRatio}</p>
-        <p>Cache hit rate: {performance.cacheHitRate}</p>
-        <p>Integration status: {loader.isIntegrated() ? 'Connected' : 'Standalone'}</p>
-      </div>
-    </section>
+    </div>
   );
 }
 
 // ============================================================================
-// 🎯 EXAMPLE 4: COMBINED USAGE (Best of Both Worlds)
+// EXAMPLE 4: COMBINED USAGE (BEST OF BOTH WORLDS)
 // ============================================================================
 
 function CombinedUsageDemo() {
-  const { currentPreset, isDarkMode } = useTheme();
-  const { language, currentStyle } = useContent();
+  const { currentPreset, setPreset } = useTheme();
+  const { language, content } = useContent();
   
-  // Create SmartContentLoader for additional features
-  const loader = createSmartContentLoader({
+  // Create loader for combined usage
+  const loader = React.useMemo(() => createSmartContentLoader({
+    extendExisting: true
+  }), []);
+
+  const { 
+    content: enhancedContent, 
+    loading, 
+    error,
+    stats 
+  } = useSmartContent(loader, 'existing', undefined, { 
     extendExisting: true,
     enhanceSEO: true,
-    security: {
-      antiScraping: true,
-      rateLimiting: true,
-      watermarking: true
-    }
+    enhanceSecurity: true
   });
 
-  // Load additional secure content
-  const { content: secureContent, loading, error } = useSmartContent(
-    loader,
-    'private',
-    'demo-auth-token',
-    { prioritize: 'security' }
-  );
-
   return (
-    <section>
-      <h2>🌟 Combined Usage (Best of Both Worlds)</h2>
+    <div style={{ border: '2px solid #2196F3', padding: '20px', margin: '20px 0' }}>
+      <h2>3. Combined Usage (Best of Both Worlds)</h2>
+      <p>Use both systems together for maximum benefit:</p>
       
-      {/* Current System State */}
-      <div>
-        <h3>Current Arc-it State</h3>
+      <div style={{ margin: '20px 0' }}>
+        <h3>Existing System + Smart Enhancement</h3>
         <p>Theme: {currentPreset}</p>
-        <p>Mode: {isDarkMode ? 'Dark' : 'Light'}</p>
         <p>Language: {language}</p>
-        <p>Style: {currentStyle}</p>
+        <p>Content: {content[language]?.title || 'Loading...'}</p>
+        <p>Status: {loading ? 'Enhancing...' : 'Ready'}</p>
       </div>
 
-      {/* Smart Content Features */}
-      <div>
-        <h3>Smart Content Features</h3>
-        {loading && <p>Loading secure content...</p>}
-        {error && <p>Error: {error}</p>}
-        {secureContent && (
-          <div>
-            <h4>🔒 Secure Content Loaded</h4>
-            <p>Content protected with anti-scraping and watermarking</p>
-            <p>Security level: {loader.getStats().security.securityLevel}</p>
-          </div>
-        )}
-      </div>
+      {enhancedContent && (
+        <div style={{ margin: '20px 0' }}>
+          <h3>Enhanced Content</h3>
+          <p>Original: {content[language]?.title}</p>
+          <p>Enhanced: {enhancedContent.title}</p>
+          <p>Security Level: {stats?.securityLevel || 'N/A'}</p>
+        </div>
+      )}
 
-      {/* Integration Benefits */}
-      <div>
-        <h3>🎯 Integration Benefits</h3>
-        <ul>
-          <li>✅ Keep your existing theme system</li>
-          <li>✅ Keep your existing content management</li>
-          <li>✅ Add automatic speed optimization</li>
-          <li>✅ Add automatic SEO enhancement</li>
-          <li>✅ Add automatic security protection</li>
-          <li>✅ Everything works together seamlessly</li>
-        </ul>
+      {error && (
+        <div style={{ margin: '20px 0', color: 'red' }}>
+          <h3>Enhancement Error</h3>
+          <p>{error}</p>
+        </div>
+      )}
+
+      <div style={{ margin: '20px 0' }}>
+        <h3>Real-time Monitoring</h3>
+        <p>Network: {stats?.networkQuality || 'N/A'}</p>
+        <p>Security: {stats?.securityLevel || 'N/A'}</p>
+        <p>Status: Both systems working together seamlessly</p>
       </div>
-    </section>
+    </div>
   );
 }
 
 // ============================================================================
-// 🎯 EXAMPLE 5: ADVANCED INTEGRATION (Enterprise Use)
+// EXAMPLE 5: ADVANCED INTEGRATION (ENTERPRISE)
 // ============================================================================
 
 function AdvancedIntegrationDemo() {
-  const { theme } = useTheme();
-  const { content } = useContent();
-
-  // Create enterprise-grade SmartContentLoader
-  const enterpriseLoader = createSmartContentLoader({
-    extendExisting: true,
-    enhanceSEO: true,
+  // Create custom Smart Content Loader with advanced configuration
+  const customLoader = React.useMemo(() => createSmartContentLoader({
     autoOptimize: true,
     networkOptimization: true,
+    enhanceSEO: true,
     security: {
       antiScraping: true,
       rateLimiting: true,
@@ -278,61 +237,71 @@ function AdvancedIntegrationDemo() {
       cacheStrategy: 'aggressive',
       preloadStrategy: 'smart',
       compressionLevel: 'high'
-    }
+    },
+    extendExisting: true // Integrate with existing providers
+  }), []);
+
+  const { 
+    content: enterpriseContent, 
+    loading, 
+    error,
+    stats,
+    seo,
+    performance 
+  } = useSmartContent(customLoader, 'private', 'enterprise-token', {
+    extendExisting: true,
+    enterpriseMode: true
   });
 
-  // Load enterprise content
-  const { content: enterpriseContent, stats, seo } = useSmartContent(
-    enterpriseLoader,
-    'auto',
-    'enterprise-token',
-    {
-      userRole: 'admin',
-      prioritize: 'security'
-    }
-  );
-
   return (
-    <section>
-      <h2>🏢 Advanced Integration (Enterprise)</h2>
+    <div style={{ border: '2px solid #FF9800', padding: '20px', margin: '20px 0' }}>
+      <h2>4. Advanced Integration (Enterprise)</h2>
+      <p>Enterprise-grade configuration with full control:</p>
       
-      {/* Enterprise Features */}
-      <div>
-        <h3>Enterprise Features</h3>
-        <p>Network optimization: Active</p>
-        <p>Security level: {stats?.securityLevel}</p>
-        <p>SEO enhancement: {stats?.seoOptimized ? 'Active' : 'Inactive'}</p>
-        <p>Cache strategy: Aggressive</p>
+      <div style={{ margin: '20px 0' }}>
+        <h3>Enterprise Configuration</h3>
+        <p>Network Optimization: Enabled</p>
+        <p>SEO Enhancement: Enabled</p>
+        <p>Security Protection: Maximum</p>
+        <p>Performance Tuning: Aggressive</p>
+        <p>Status: {loading ? 'Loading...' : 'Ready'}</p>
       </div>
 
-      {/* System Integration */}
-      <div>
-        <h3>System Integration Status</h3>
-        <p>Theme provider: Connected</p>
-        <p>Content provider: Connected</p>
-        <p>Smart loader: Active</p>
-        <p>Integration level: Full</p>
-      </div>
+      {enterpriseContent && (
+        <div style={{ margin: '20px 0' }}>
+          <h3>Enterprise Content Loaded</h3>
+          <p>Content Type: {enterpriseContent.type || 'N/A'}</p>
+          <p>Security Level: {stats?.securityLevel || 'N/A'}</p>
+          <p>Performance Score: {performance?.cacheHitRate || 'N/A'}%</p>
+        </div>
+      )}
 
-      {/* Performance Monitoring */}
-      <div>
-        <h3>Performance Monitoring</h3>
-        <p>Load time: {stats?.loadTime}ms</p>
-        <p>Network quality: {stats?.networkQuality}</p>
-        <p>Cache status: {stats?.cacheStatus}</p>
+      {error && (
+        <div style={{ margin: '20px 0', color: 'red' }}>
+          <h3>Enterprise Error</h3>
+          <p>{error}</p>
+        </div>
+      )}
+
+      <div style={{ margin: '20px 0' }}>
+        <h3>Advanced Metrics</h3>
+        <p>Network Quality: {stats?.networkQuality || 'N/A'}</p>
+        <p>Security Level: {stats?.securityLevel || 'N/A'}</p>
+        <p>SEO Score: {seo?.structuredData ? 'Optimized' : 'N/A'}</p>
+        <p>Cache Hit Rate: {performance?.cacheHitRate || 'N/A'}%</p>
       </div>
-    </section>
+    </div>
   );
 }
 
 // ============================================================================
-// 🎯 MAIN APP - Show All Integration Examples
+// MAIN EXPORT - COMPLETE INTEGRATION EXAMPLE
 // ============================================================================
 
 export default function SmartContentIntegrationApp() {
   return (
     <div>
-      <h1>🚀 Arc-it + Smart Content Loader Integration</h1>
+      <h1>Arc-it + Smart Content Loader Integration</h1>
       <p>Your existing system enhanced with automatic Speed + SEO + Security!</p>
       
       <hr />
@@ -352,18 +321,18 @@ export default function SmartContentIntegrationApp() {
       <AdvancedIntegrationDemo />
       
       <hr />
-      <h2>🎯 Key Benefits of Integration</h2>
+      <h2>Key Benefits of Integration</h2>
       <ul>
-        <li><strong>🔄 No Breaking Changes:</strong> Your existing code works exactly the same</li>
-        <li><strong>🚀 Enhanced Performance:</strong> Automatic network optimization and caching</li>
-        <li><strong>🔍 Better SEO:</strong> Automatic structured data and meta tags</li>
-        <li><strong>🛡️ Enhanced Security:</strong> Anti-scraping and rate limiting</li>
-        <li><strong>🎨 Keep Your Themes:</strong> All your existing theme presets work</li>
-        <li><strong>🌍 Keep Your Languages:</strong> All your existing language support works</li>
-        <li><strong>🎯 Keep Your Styles:</strong> All your existing content styles work</li>
+        <li><strong>No Breaking Changes:</strong> Your existing code works exactly the same</li>
+        <li><strong>Enhanced Performance:</strong> Automatic network optimization and caching</li>
+        <li><strong>Better SEO:</strong> Automatic structured data and meta tags</li>
+        <li><strong>Enhanced Security:</strong> Anti-scraping and rate limiting</li>
+        <li><strong>Keep Your Themes:</strong> All your existing theme presets work</li>
+        <li><strong>Keep Your Languages:</strong> All your existing language support works</li>
+        <li><strong>Keep Your Styles:</strong> All your existing content styles work</li>
       </ul>
       
-      <h2>💡 How It Works</h2>
+      <h2>How It Works</h2>
       <ol>
         <li><strong>Install:</strong> Your existing Arc-it system continues to work</li>
         <li><strong>Add Smart Features:</strong> Import and use SmartContentLoader for additional features</li>

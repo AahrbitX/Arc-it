@@ -1,6 +1,6 @@
 # Quick Start - Dynamic Theme & Content
 
-## **1-Line Setup (Recommended)**
+## 1-Line Setup (Recommended)
 
 ```tsx
 import { DynamicProvider } from 'arc-it';
@@ -16,7 +16,7 @@ function App() {
 
 That's it! Your app now automatically detects and switches between themes, languages, and content styles from your JSON files.
 
-## **Dynamic Detection System**
+## Dynamic Detection System
 
 The **DynamicSwitcher** component automatically discovers everything from your JSON files:
 
@@ -41,30 +41,30 @@ function App() {
 - **Content Styles**: All styles from `content.json`
 - **Light/Dark Variants**: Automatic theme variant detection
 
-## **Choose Your Approach**
+## Choose Your Approach
 
-### **Option A: Everything Together (Easiest)**
+### Option A: Everything Together (Easiest)
 ```tsx
 <DynamicProvider>
   <YourApp />
 </DynamicProvider>
 ```
 
-### **Option B: CSS Variables Only**
+### Option B: CSS Variables Only
 ```tsx
 <ThemeProvider>
   <YourApp />
 </ThemeProvider>
 ```
 
-### **Option C: Content Management Only**
+### Option C: Content Management Only
 ```tsx
 <ContentProvider>
   <YourApp />
 </ContentProvider>
 ```
 
-## **Create Theme File**
+## Create Theme File
 
 Create `public/content/theme.json`:
 
@@ -97,7 +97,7 @@ Create `public/content/theme.json`:
 }
 ```
 
-## **Create Content File**
+## Create Content File
 
 Create `public/content/content.json`:
 
@@ -128,9 +128,9 @@ Create `public/content/content.json`:
 }
 ```
 
-## **Use in Components**
+## Use in Components
 
-### **CSS Variables Approach**
+### CSS Variables Approach
 ```tsx
 import { useTheme } from 'arc-it';
 
@@ -145,7 +145,7 @@ function Button() {
 }
 ```
 
-### **Content Management Approach**
+### Content Management Approach
 ```tsx
 import { useContent, useContentStyle } from 'arc-it';
 
@@ -167,7 +167,7 @@ function Hero() {
 }
 ```
 
-### **Theme Switching**
+### Theme Switching
 ```tsx
 import { useTheme } from 'arc-it';
 
@@ -186,7 +186,7 @@ function ThemeSwitcher() {
 }
 ```
 
-### **Dark Mode Toggle**
+### Dark Mode Toggle
 ```tsx
 import { useTheme } from 'arc-it';
 
@@ -201,7 +201,7 @@ function DarkModeToggle() {
 }
 ```
 
-## **Complete Example**
+## Complete Example
 
 ```tsx
 import { DynamicProvider, DynamicSwitcher, useTheme, useContent } from 'arc-it';
@@ -284,7 +284,7 @@ function DarkModeToggle() {
 }
 ```
 
-## **What Happens Automatically**
+## What Happens Automatically
 
 1. **Theme Detection**: Reads `theme.json` and discovers all presets
 2. **Language Detection**: Reads `content.json` and discovers all languages
@@ -293,33 +293,33 @@ function DarkModeToggle() {
 5. **Smart Switching**: Handles light/dark variants automatically
 6. **Real-time Updates**: Changes reflect immediately
 
-## **Next Steps**
+## Next Steps
 
 - **Customize Themes**: Add more presets to `theme.json`
 - **Add Languages**: Add more language keys to `content.json`
 - **Create Styles**: Add more content styles to `content.json`
 - **Advanced Usage**: See the full documentation for advanced features
 
-## **Troubleshooting**
+## Troubleshooting
 
-### **No themes detected?**
+### No themes detected?
 - Check that `theme.json` has a `presets` object
 - Ensure the file path is correct (`/content/theme.json`)
 
-### **No languages detected?**
+### No languages detected?
 - Check that `content.json` has language keys (en, es, fr, etc.)
 - Ensure language keys are 2-letter codes
 
-### **No content styles detected?**
+### No content styles detected?
 - Check that `content.json` has a `styles` object
 - Ensure each style has a `name` and `description`
 
-### **Component not updating?**
+### Component not updating?
 - Make sure your component is wrapped in the provider
 - Check that you're using the correct hooks
 - Verify the JSON files are accessible
 
-## **Advanced Features**
+## Advanced Features
 
 - **Custom Metadata**: Add descriptions, icons, and categories to themes and styles
 - **Dynamic Detection**: Everything is discovered automatically - no hardcoding needed
